@@ -6,6 +6,7 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'airbnb',
+    'plugin:jsx-a11y/recommended',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
@@ -24,7 +25,9 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    'prettier/prettier': 'error',
+    // Include .prettierrc.js rules
+    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    'react/prop-types': 'off', // We turn off prop-types rule, as we will use TypeScript's types instead.
     'import-helpers/order-imports': [
       'warn',
       {
@@ -34,5 +37,33 @@ module.exports = {
         alphabetize: { order: 'asc', ignoreCase: true },
       },
     ],
+    'react/jsx-filename-extension': [
+      'error',
+      {
+        extensions: ['.tsx'],
+      },
+    ],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+  },
+  settings: {
+    'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+      },
+    },
+    react: {
+      version: 'detect',
+    },
   },
 };
