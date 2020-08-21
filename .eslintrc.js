@@ -6,6 +6,8 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'airbnb',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -19,17 +21,16 @@ module.exports = {
     'react',
     '@typescript-eslint',
     'eslint-plugin-import-helpers',
+    'prettier',
   ],
   rules: {
+    'prettier/prettier': 'error',
     'import-helpers/order-imports': [
       'warn',
-      { // example configuration
+      {
+        // example configuration
         newlinesBetween: 'always',
-        groups: [
-          'module',
-          '/^@shared/',
-          ['parent', 'sibling', 'index'],
-        ],
+        groups: ['module', '/^@shared/', ['parent', 'sibling', 'index']],
         alphabetize: { order: 'asc', ignoreCase: true },
       },
     ],
