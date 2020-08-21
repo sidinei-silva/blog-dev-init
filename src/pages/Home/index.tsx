@@ -4,12 +4,14 @@ import Container from '@material-ui/core/Container';
 import Head from 'next/head';
 import React from 'react';
 
+import Header from '../../components/Header';
 export default function Home() {
   return (
     <>
       <Head>
         <title>Dev Init | Home</title>
       </Head>
+      <Header />
       <Container maxWidth="sm">
         <Box my={4}>
           <Typography variant="h4" component="h1" gutterBottom>
