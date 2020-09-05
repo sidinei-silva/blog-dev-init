@@ -52,7 +52,8 @@ interface HomeProps {
 const useStyles = makeStyles(theme =>
   createStyles({
     imgThumbnail: {
-      width: '100%',
+      height: 0,
+      paddingTop: '56.25%', // 16:9
     },
     postCard: {
       height: '100%',
@@ -81,38 +82,31 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
         <Box my={4}>
           <Grid container spacing={6}>
             <Grid item md={9} xs={12}>
-              <Grid container direction="column" spacing={5}>
-                <Grid item>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Link href="/">
-                        <img
-                          className={classes.imgThumbnail}
-                          src={highlight.node.thumbnail.url}
-                          alt={highlight.node.thumbnail.alt}
-                        />
-                      </Link>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Link href="/">
-                        <Typography variant="h4">
-                          {highlight.node.title}
-                        </Typography>
-                        <Typography variant="subtitle1">
-                          {highlight.node.subtitle}
-                        </Typography>
-                        <Typography variant="caption">
-                          <span>Criado em </span>
-                          {moment(
-                            highlight.node._meta.firstPublicationDate,
-                          ).format('DD-MM-YYYY ')}
-                        </Typography>
-                      </Link>
-                    </Grid>
+              <CardActionArea>
+                <Grid container spacing={4} alignItems="center">
+                  <Grid item md={8} xs={12}>
+                    <CardMedia
+                      className={classes.imgThumbnail}
+                      image={highlight.node.thumbnail.url}
+                      title={highlight.node.thumbnail.alt}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h4">{highlight.node.title}</Typography>
+                    <Typography variant="subtitle1">
+                      {highlight.node.subtitle}
+                    </Typography>
+                    <Typography variant="caption">
+                      <span>Criado em </span>
+                      {moment(highlight.node._meta.firstPublicationDate).format(
+                        'DD-MM-YYYY ',
+                      )}
+                    </Typography>
                   </Grid>
                 </Grid>
-              </Grid>
+              </CardActionArea>
             </Grid>
+
             <Grid item md={3} xs={12}>
               <Hidden smDown>
                 <Grid container direction="column" spacing={5}>
@@ -139,24 +133,9 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                 <Grid container spacing={3}>
                   {posts &&
                     posts.map(post => (
-                      <Grid item xs={4}>
+                      <Grid item xs={12} md={4}>
                         <Card className={classes.postCard}>
                           <CardActionArea className={classes.postCard}>
-                            {/* <CardHeader */}
-                            {/*  className={classes.postHeader} */}
-                            {/*  avatar={ */}
-                            {/*    <Avatar */}
-                            {/*      aria-label="recipe" */}
-                            {/*      className={classes.avatar} */}
-                            {/*    > */}
-                            {/*      S */}
-                            {/*    </Avatar> */}
-                            {/*  } */}
-                            {/*  title={post.node.title} */}
-                            {/*  subheader={moment( */}
-                            {/*    post.node._meta.firstPublicationDate, */}
-                            {/*  ).format('DD-MM-YYYY ')} */}
-                            {/* /> */}
                             <CardMedia
                               className={classes.mediaPost}
                               image={post.node.thumbnail.url}
