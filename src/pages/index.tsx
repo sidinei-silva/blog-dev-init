@@ -1,12 +1,57 @@
-import { Typography, Grid, Box, Divider, Hidden } from '@material-ui/core';
+/* eslint-disable no-underscore-dangle */
+import {
+  Typography,
+  Grid,
+  Box,
+  Divider,
+  Hidden,
+  Link,
+} from '@material-ui/core';
 import Container from '@material-ui/core/Container';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 import Head from 'next/head';
 import React from 'react';
 
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import { fetchAPI } from '../lib/api-prismic';
 
-export default function Home() {
+import 'moment/locale/pt-br';
+
+moment.locale('pt-br');
+
+interface Post {
+  node: {
+    _meta: {
+      uid: string;
+      firstPublicationDate: string;
+    };
+    title: string;
+    subtitle: string;
+    thumbnail: {
+      url: string;
+      alt: string;
+    };
+    content: string;
+  };
+}
+
+interface HomeProps {
+  posts: Post[];
+}
+
+const useStyles = makeStyles(theme =>
+  createStyles({
+    imgThumbnail: {
+      width: '100%',
+    },
+  }),
+);
+
+const Home: React.FC<HomeProps> = ({ posts }) => {
+  const classes = useStyles();
+  const highlight = posts[0];
   return (
     <>
       <Head>
@@ -20,21 +65,33 @@ export default function Home() {
             <Grid item md={9} xs={12}>
               <Grid container direction="column" spacing={5}>
                 <Grid item>
-                  <Box p={2} height="350px" bgcolor="#ccc">
-                    <Typography align="center">Destaque</Typography>
-                    <Grid container spacing={4}>
-                      <Grid item md={8} xs={8}>
-                        <Box height="220px" width="100%" bgcolor="#bbb">
-                          <Typography>image</Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item md={4} xs={4}>
-                        <Box height="220px" bgcolor="#bbb">
-                          <Typography>title</Typography>
-                        </Box>
-                      </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Link href="/">
+                        <img
+                          className={classes.imgThumbnail}
+                          src={highlight.node.thumbnail.url}
+                          alt={highlight.node.thumbnail.alt}
+                        />
+                      </Link>
                     </Grid>
-                  </Box>
+                    <Grid item xs={12}>
+                      <Link href="/">
+                        <Typography variant="h4">
+                          {highlight.node.title}
+                        </Typography>
+                        <Typography variant="subtitle1">
+                          {highlight.node.subtitle}
+                        </Typography>
+                        <Typography variant="caption">
+                          <span>Criado em </span>
+                          {moment(
+                            highlight.node._meta.firstPublicationDate,
+                          ).format('DD-MM-YYYY ')}
+                        </Typography>
+                      </Link>
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item>
                   <Hidden smDown>
@@ -133,10 +190,38 @@ export default function Home() {
       </Container>
     </>
   );
-}
+};
+
+export default Home;
 
 export async function getServerSideProps() {
+  const posts = await fetchAPI(
+    `
+    query {
+      allPosts(sortBy: meta_lastPublicationDate_ASC) {
+        edges {
+          node{
+            _meta {
+              uid,
+              firstPublicationDate
+            }
+            title
+            subtitle
+            thumbnail
+            content
+          }
+        }
+      }
+    }
+  `,
+    {},
+  );
+
+  console.log(posts);
+
   return {
-    props: {},
+    props: {
+      posts: posts.allPosts.edges,
+    },
   };
 }
