@@ -6,6 +6,13 @@ import {
   Divider,
   Hidden,
   Link,
+  Card,
+  CardMedia,
+  CardHeader,
+  CardContent,
+  Avatar,
+  Chip,
+  CardActionArea,
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -26,6 +33,7 @@ interface Post {
     _meta: {
       uid: string;
       firstPublicationDate: string;
+      tags: string[];
     };
     title: string;
     subtitle: string;
@@ -45,6 +53,16 @@ const useStyles = makeStyles(theme =>
   createStyles({
     imgThumbnail: {
       width: '100%',
+    },
+    postCard: {
+      height: '100%',
+    },
+    mediaPost: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
+    },
+    avatar: {
+      backgroundColor: '#112D4E',
     },
   }),
 );
@@ -117,19 +135,75 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
         <Box my={4}>
           <Grid container spacing={6}>
             <Grid item md={9} xs={12}>
-              <Box height="840px" bgcolor="#ccc">
-                <Typography>All posts</Typography>
+              <Box>
+                <Grid container spacing={3}>
+                  {posts &&
+                    posts.map(post => (
+                      <Grid item xs={4}>
+                        <Card className={classes.postCard}>
+                          <CardActionArea className={classes.postCard}>
+                            {/* <CardHeader */}
+                            {/*  className={classes.postHeader} */}
+                            {/*  avatar={ */}
+                            {/*    <Avatar */}
+                            {/*      aria-label="recipe" */}
+                            {/*      className={classes.avatar} */}
+                            {/*    > */}
+                            {/*      S */}
+                            {/*    </Avatar> */}
+                            {/*  } */}
+                            {/*  title={post.node.title} */}
+                            {/*  subheader={moment( */}
+                            {/*    post.node._meta.firstPublicationDate, */}
+                            {/*  ).format('DD-MM-YYYY ')} */}
+                            {/* /> */}
+                            <CardMedia
+                              className={classes.mediaPost}
+                              image={post.node.thumbnail.url}
+                              title={post.node.thumbnail.alt}
+                            />
+                            <CardContent>
+                              <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="h2"
+                                align="center"
+                              >
+                                {post.node.title}
+                              </Typography>
+                              <Typography
+                                gutterBottom
+                                align="center"
+                                variant="subtitle1"
+                              >
+                                {post.node.subtitle}
+                              </Typography>
+                              <Grid
+                                container
+                                justify="center"
+                                alignItems="center"
+                                alignContent="center"
+                              >
+                                {post.node._meta.tags &&
+                                  post.node._meta.tags.map((tag, i) => {
+                                    return (
+                                      <Box m={0.5} alignItems="center">
+                                        <Chip label={tag} size="small" />
+                                      </Box>
+                                    );
+                                  })}
+                              </Grid>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </Grid>
+                    ))}
+                </Grid>
               </Box>
             </Grid>
             <Grid item md={3} xs={12}>
               <Hidden smDown>
                 <Grid container direction="column" spacing={5}>
-                  <Grid item>
-                    <Box height="400px" bgcolor="#ccc">
-                      <Typography>Banner</Typography>
-                    </Box>
-                  </Grid>
-
                   <Grid item>
                     <Box height="400px" bgcolor="#ccc">
                       <Typography>Banner</Typography>
@@ -156,12 +230,13 @@ export async function getServerSideProps() {
   const posts = await fetchAPI(
     `
     query {
-      allPosts(sortBy: meta_lastPublicationDate_ASC) {
+      allPosts(sortBy: meta_lastPublicationDate_DESC) {
         edges {
           node{
             _meta {
               uid,
-              firstPublicationDate
+              firstPublicationDate,
+              tags,
             }
             title
             subtitle
@@ -174,8 +249,6 @@ export async function getServerSideProps() {
   `,
     {},
   );
-
-  console.log(posts);
 
   return {
     props: {
