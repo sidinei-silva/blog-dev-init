@@ -25,8 +25,6 @@ export async function fetchAPI<T = any>(query, variables): Promise<T> {
     },
   );
 
-  console.log(res);
-
   const { data } = await res.json();
 
   return data;
