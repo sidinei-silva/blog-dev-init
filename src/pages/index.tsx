@@ -93,47 +93,11 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Hidden smDown>
-                    <Box p={2} height="450px" bgcolor="#ccc">
-                      <Typography align="center">Scroller</Typography>
-
-                      <Grid container spacing={3}>
-                        <Grid item xs>
-                          <Box height="280px" bgcolor="#bbb">
-                            Item 1
-                          </Box>
-                        </Grid>
-                        <Grid item xs>
-                          <Box height="280px" bgcolor="#bbb">
-                            Item 2
-                          </Box>
-                        </Grid>
-                        <Grid item xs>
-                          <Box height="280px" bgcolor="#bbb">
-                            Item 3
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Hidden>
-                  <Hidden mdUp>
-                    <Box p={2} height="250px" bgcolor="#ccc">
-                      <Typography align="center">Scroller</Typography>
-                    </Box>
-                  </Hidden>
-                </Grid>
               </Grid>
             </Grid>
             <Grid item md={3} xs={12}>
               <Hidden smDown>
                 <Grid container direction="column" spacing={5}>
-                  <Grid item>
-                    <Box height="400px" bgcolor="#ccc">
-                      <Typography>Banner</Typography>
-                    </Box>
-                  </Grid>
-
                   <Grid item>
                     <Box height="400px" bgcolor="#ccc">
                       <Typography>Banner</Typography>
@@ -148,12 +112,6 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
               </Hidden>
             </Grid>
           </Grid>
-        </Box>
-        <Divider />
-        <Box my={4}>
-          <Box height="300px" bgcolor="#ccc">
-            <Typography>Instagram</Typography>
-          </Box>
         </Box>
         <Divider />
         <Box my={4}>
