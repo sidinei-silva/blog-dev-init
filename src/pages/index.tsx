@@ -5,7 +5,6 @@ import {
   Box,
   Divider,
   Hidden,
-  Link,
   Card,
   CardMedia,
   CardHeader,
@@ -42,6 +41,13 @@ interface Post {
       alt: string;
     };
     content: string;
+    author: {
+      name: string;
+      avatar: {
+        url: string;
+        alt: string;
+      };
+    };
   };
 }
 
@@ -49,14 +55,14 @@ interface HomeProps {
   posts: Post[];
 }
 
-const useStyles = makeStyles(theme =>
+const useStyles = makeStyles(() =>
   createStyles({
     imgThumbnail: {
       height: 0,
       paddingTop: '56.25%', // 16:9
     },
     postCard: {
-      height: '100%',
+      minHeight: '100%',
     },
     mediaPost: {
       height: 0,
@@ -71,6 +77,7 @@ const useStyles = makeStyles(theme =>
 const Home: React.FC<HomeProps> = ({ posts }) => {
   const classes = useStyles();
   const highlight = posts[0];
+
   return (
     <>
       <Head>
@@ -101,6 +108,8 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                       {moment(highlight.node._meta.firstPublicationDate).format(
                         'DD-MM-YYYY ',
                       )}
+                      <span>Por </span>
+                      <span>{highlight.node.author.name ?? ''}</span>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -136,6 +145,18 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                       <Grid item xs={12} md={4}>
                         <Card className={classes.postCard}>
                           <CardActionArea className={classes.postCard}>
+                            <CardHeader
+                              avatar={
+                                <Avatar
+                                  alt={post.node.author.avatar.alt ?? ''}
+                                  src={post.node.author.avatar.url ?? ''}
+                                />
+                              }
+                              title={post.node.author.name ?? ''}
+                              subheader={moment(
+                                highlight.node._meta.firstPublicationDate,
+                              ).format('DD-MM-YYYY ')}
+                            />
                             <CardMedia
                               className={classes.mediaPost}
                               image={post.node.thumbnail.url}
@@ -164,7 +185,7 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                                 alignContent="center"
                               >
                                 {post.node._meta.tags &&
-                                  post.node._meta.tags.map((tag, i) => {
+                                  post.node._meta.tags.map(tag => {
                                     return (
                                       <Box m={0.5} alignItems="center">
                                         <Chip label={tag} size="small" />
@@ -221,6 +242,12 @@ export async function getServerSideProps() {
             subtitle
             thumbnail
             content
+            author {
+              ... on Author{
+                name
+                avatar
+              }
+            }
           }
         }
       }
