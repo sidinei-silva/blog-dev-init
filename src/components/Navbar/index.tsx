@@ -3,7 +3,17 @@ import React from 'react';
 
 import useStyles from './styles';
 
-const Navbar: React.FC = () => {
+interface Category {
+  node: {
+    name: string;
+  };
+}
+
+interface NavbarProps {
+  categories: Category[];
+}
+
+const Navbar: React.FC<NavbarProps> = ({ categories }) => {
   const classes = useStyles();
 
   return (
@@ -13,12 +23,12 @@ const Navbar: React.FC = () => {
           <Link className={classes.link} href="/">
             Home
           </Link>
-          <Link className={classes.link} href="/">
-            Teste
-          </Link>
-          <Link className={classes.link} href="/">
-            Teste 2
-          </Link>
+          {categories &&
+            categories.map(category => (
+              <Link className={classes.link} href="/">
+                {category.node.name}
+              </Link>
+            ))}
         </Typography>
       </Box>
       <Box>

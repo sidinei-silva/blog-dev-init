@@ -27,6 +27,10 @@ import 'moment/locale/pt-br';
 
 moment.locale('pt-br');
 
+interface Category {
+  name: string;
+}
+
 interface Post {
   node: {
     _meta: {
@@ -53,6 +57,7 @@ interface Post {
 
 interface HomeProps {
   posts: Post[];
+  categories: [];
 }
 
 const useStyles = makeStyles(() =>
@@ -74,7 +79,7 @@ const useStyles = makeStyles(() =>
   }),
 );
 
-const Home: React.FC<HomeProps> = ({ posts }) => {
+const Home: React.FC<HomeProps> = ({ posts, categories }) => {
   const classes = useStyles();
   const highlight = posts[0];
 
@@ -84,7 +89,7 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
         <title>Dev Init | Home</title>
       </Head>
       <Header />
-      <Navbar />
+      <Navbar categories={categories} />
       <Container maxWidth="lg">
         <Box my={4}>
           <Grid container spacing={6}>
@@ -139,7 +144,7 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
           <Grid container spacing={6}>
             <Grid item md={9} xs={12}>
               <Box>
-                <Grid container spacing={3}>
+                <Grid container spacing={5}>
                   {posts &&
                     posts.map(post => (
                       <Grid item xs={12} md={4}>
@@ -166,7 +171,6 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                               <Typography
                                 gutterBottom
                                 variant="h5"
-                                component="h2"
                                 align="center"
                               >
                                 {post.node.title}
@@ -174,7 +178,7 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                               <Typography
                                 gutterBottom
                                 align="center"
-                                variant="subtitle1"
+                                variant="subtitle2"
                               >
                                 {post.node.subtitle}
                               </Typography>
@@ -256,9 +260,26 @@ export async function getServerSideProps() {
     {},
   );
 
+  const categories = await fetchAPI(
+    `
+    query {
+
+      allCategorys(sortBy: meta_lastPublicationDate_DESC){
+        edges {
+          node {
+            name
+          }
+        }
+      }
+    }
+  `,
+    {},
+  );
+
   return {
     props: {
       posts: posts.allPosts.edges,
+      categories: categories.allCategorys.edges,
     },
   };
 }
