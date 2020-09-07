@@ -5,7 +5,6 @@ import {
   Box,
   Divider,
   Hidden,
-  Link,
   Card,
   CardMedia,
   CardHeader,
@@ -28,6 +27,10 @@ import 'moment/locale/pt-br';
 
 moment.locale('pt-br');
 
+interface Category {
+  name: string;
+}
+
 interface Post {
   node: {
     _meta: {
@@ -42,21 +45,29 @@ interface Post {
       alt: string;
     };
     content: string;
+    author: {
+      name: string;
+      avatar: {
+        url: string;
+        alt: string;
+      };
+    };
   };
 }
 
 interface HomeProps {
   posts: Post[];
+  categories: [];
 }
 
-const useStyles = makeStyles(theme =>
+const useStyles = makeStyles(() =>
   createStyles({
     imgThumbnail: {
       height: 0,
       paddingTop: '56.25%', // 16:9
     },
     postCard: {
-      height: '100%',
+      minHeight: '100%',
     },
     mediaPost: {
       height: 0,
@@ -68,16 +79,17 @@ const useStyles = makeStyles(theme =>
   }),
 );
 
-const Home: React.FC<HomeProps> = ({ posts }) => {
+const Home: React.FC<HomeProps> = ({ posts, categories }) => {
   const classes = useStyles();
   const highlight = posts[0];
+
   return (
     <>
       <Head>
         <title>Dev Init | Home</title>
       </Head>
       <Header />
-      <Navbar />
+      <Navbar categories={categories} />
       <Container maxWidth="lg">
         <Box my={4}>
           <Grid container spacing={6}>
@@ -101,6 +113,8 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                       {moment(highlight.node._meta.firstPublicationDate).format(
                         'DD-MM-YYYY ',
                       )}
+                      <span>Por </span>
+                      <span>{highlight.node.author.name ?? ''}</span>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -130,12 +144,24 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
           <Grid container spacing={6}>
             <Grid item md={9} xs={12}>
               <Box>
-                <Grid container spacing={3}>
+                <Grid container spacing={5}>
                   {posts &&
                     posts.map(post => (
                       <Grid item xs={12} md={4}>
                         <Card className={classes.postCard}>
                           <CardActionArea className={classes.postCard}>
+                            <CardHeader
+                              avatar={
+                                <Avatar
+                                  alt={post.node.author.avatar.alt ?? ''}
+                                  src={post.node.author.avatar.url ?? ''}
+                                />
+                              }
+                              title={post.node.author.name ?? ''}
+                              subheader={moment(
+                                highlight.node._meta.firstPublicationDate,
+                              ).format('DD-MM-YYYY ')}
+                            />
                             <CardMedia
                               className={classes.mediaPost}
                               image={post.node.thumbnail.url}
@@ -145,7 +171,6 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                               <Typography
                                 gutterBottom
                                 variant="h5"
-                                component="h2"
                                 align="center"
                               >
                                 {post.node.title}
@@ -153,7 +178,7 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                               <Typography
                                 gutterBottom
                                 align="center"
-                                variant="subtitle1"
+                                variant="subtitle2"
                               >
                                 {post.node.subtitle}
                               </Typography>
@@ -164,7 +189,7 @@ const Home: React.FC<HomeProps> = ({ posts }) => {
                                 alignContent="center"
                               >
                                 {post.node._meta.tags &&
-                                  post.node._meta.tags.map((tag, i) => {
+                                  post.node._meta.tags.map(tag => {
                                     return (
                                       <Box m={0.5} alignItems="center">
                                         <Chip label={tag} size="small" />
@@ -221,6 +246,28 @@ export async function getServerSideProps() {
             subtitle
             thumbnail
             content
+            author {
+              ... on Author{
+                name
+                avatar
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
+    {},
+  );
+
+  const categories = await fetchAPI(
+    `
+    query {
+
+      allCategorys(sortBy: meta_lastPublicationDate_DESC){
+        edges {
+          node {
+            name
           }
         }
       }
@@ -232,6 +279,7 @@ export async function getServerSideProps() {
   return {
     props: {
       posts: posts.allPosts.edges,
+      categories: categories.allCategorys.edges,
     },
   };
 }
