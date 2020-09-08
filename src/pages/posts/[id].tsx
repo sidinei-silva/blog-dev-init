@@ -70,6 +70,12 @@ const useStyles = makeStyles(() =>
     avatar: {
       backgroundColor: '#112D4E',
     },
+    authorCardHeader: {
+      padding: 0,
+    },
+    postCardHeader: {
+      padding: '16px',
+    },
   }),
 );
 
@@ -84,13 +90,19 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
       <Navbar categories={categories} />
       <Container maxWidth="md">
         <Box my={3} className="authorInfo">
-          <Grid container justify="space-between">
-            <Grid item md={8}>
+          <Grid
+            container
+            justify="space-between"
+            spacing={2}
+            alignItems="center"
+          >
+            <Grid item md={10} xs={12}>
               <Typography variant="h3">{post.node.title}</Typography>
               <Typography variant="h6">{post.node.subtitle}</Typography>
             </Grid>
-            <Grid item>
+            <Grid item md={2} xs={12}>
               <CardHeader
+                className={classes.authorCardHeader}
                 avatar={
                   <Avatar
                     alt={post.node.author.avatar.alt ?? ''}
