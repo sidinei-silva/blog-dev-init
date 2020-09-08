@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   return (
     <>
       <Box className={classes.root}>
-        <img className={classes.logo} src="logo_transparent.png" alt="" />
+        <img className={classes.logo} src="/logo_transparent.png" alt="" />
       </Box>
     </>
   );
