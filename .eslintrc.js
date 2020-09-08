@@ -28,6 +28,7 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'no-underscore-dangle': 'off',
     // Include .prettierrc.js rules
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/prop-types': 'off', // We turn off prop-types rule, as we will use TypeScript's types instead.
