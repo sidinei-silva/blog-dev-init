@@ -7,9 +7,11 @@ module.exports = {
     'plugin:react/recommended',
     'airbnb',
     'plugin:jsx-a11y/recommended',
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
     'prettier/react',
+    'prettier/@typescript-eslint',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -26,6 +28,7 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'no-underscore-dangle': 'off',
     // Include .prettierrc.js rules
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/prop-types': 'off', // We turn off prop-types rule, as we will use TypeScript's types instead.

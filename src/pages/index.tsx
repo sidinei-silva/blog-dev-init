@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import {
   Typography,
   Grid,
@@ -12,6 +11,7 @@ import {
   Avatar,
   Chip,
   CardActionArea,
+  Link,
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -26,10 +26,6 @@ import { fetchAPI } from '../lib/api-prismic';
 import 'moment/locale/pt-br';
 
 moment.locale('pt-br');
-
-interface Category {
-  name: string;
-}
 
 interface Post {
   node: {
@@ -95,29 +91,36 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
           <Grid container spacing={6}>
             <Grid item md={9} xs={12}>
               <CardActionArea>
-                <Grid container spacing={4} alignItems="center">
-                  <Grid item md={8} xs={12}>
-                    <CardMedia
-                      className={classes.imgThumbnail}
-                      image={highlight.node.thumbnail.url}
-                      title={highlight.node.thumbnail.alt}
-                    />
+                <Link
+                  href={`posts/${highlight.node._meta.uid}`}
+                  underline="none"
+                >
+                  <Grid container spacing={4} alignItems="center">
+                    <Grid item md={8} xs={12}>
+                      <CardMedia
+                        className={classes.imgThumbnail}
+                        image={highlight.node.thumbnail.url}
+                        title={highlight.node.thumbnail.alt}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Typography variant="h4">
+                        {highlight.node.title}
+                      </Typography>
+                      <Typography variant="subtitle1">
+                        {highlight.node.subtitle}
+                      </Typography>
+                      <Typography variant="caption">
+                        <span>Criado em </span>
+                        {moment(
+                          highlight.node._meta.firstPublicationDate,
+                        ).format('DD-MM-YYYY ')}
+                        <span>Por </span>
+                        <span>{highlight.node.author.name ?? ''}</span>
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} md={4}>
-                    <Typography variant="h4">{highlight.node.title}</Typography>
-                    <Typography variant="subtitle1">
-                      {highlight.node.subtitle}
-                    </Typography>
-                    <Typography variant="caption">
-                      <span>Criado em </span>
-                      {moment(highlight.node._meta.firstPublicationDate).format(
-                        'DD-MM-YYYY ',
-                      )}
-                      <span>Por </span>
-                      <span>{highlight.node.author.name ?? ''}</span>
-                    </Typography>
-                  </Grid>
-                </Grid>
+                </Link>
               </CardActionArea>
             </Grid>
 
@@ -147,57 +150,66 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
                 <Grid container spacing={5}>
                   {posts &&
                     posts.map(post => (
-                      <Grid item xs={12} md={4}>
+                      <Grid key={post.node.title} item xs={12} md={4}>
                         <Card className={classes.postCard}>
                           <CardActionArea className={classes.postCard}>
-                            <CardHeader
-                              avatar={
-                                <Avatar
-                                  alt={post.node.author.avatar.alt ?? ''}
-                                  src={post.node.author.avatar.url ?? ''}
-                                />
-                              }
-                              title={post.node.author.name ?? ''}
-                              subheader={moment(
-                                highlight.node._meta.firstPublicationDate,
-                              ).format('DD-MM-YYYY ')}
-                            />
-                            <CardMedia
-                              className={classes.mediaPost}
-                              image={post.node.thumbnail.url}
-                              title={post.node.thumbnail.alt}
-                            />
-                            <CardContent>
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                align="center"
-                              >
-                                {post.node.title}
-                              </Typography>
-                              <Typography
-                                gutterBottom
-                                align="center"
-                                variant="subtitle2"
-                              >
-                                {post.node.subtitle}
-                              </Typography>
-                              <Grid
-                                container
-                                justify="center"
-                                alignItems="center"
-                                alignContent="center"
-                              >
-                                {post.node._meta.tags &&
-                                  post.node._meta.tags.map(tag => {
-                                    return (
-                                      <Box m={0.5} alignItems="center">
-                                        <Chip label={tag} size="small" />
-                                      </Box>
-                                    );
-                                  })}
-                              </Grid>
-                            </CardContent>
+                            <Link
+                              href={`posts/${post.node._meta.uid}`}
+                              underline="none"
+                            >
+                              <CardHeader
+                                avatar={
+                                  <Avatar
+                                    alt={post.node.author.avatar.alt ?? ''}
+                                    src={post.node.author.avatar.url ?? ''}
+                                  />
+                                }
+                                title={post.node.author.name ?? ''}
+                                subheader={moment(
+                                  post.node._meta.firstPublicationDate,
+                                ).format('DD-MM-YYYY ')}
+                              />
+                              <CardMedia
+                                className={classes.mediaPost}
+                                image={post.node.thumbnail.url}
+                                title={post.node.thumbnail.alt}
+                              />
+                              <CardContent>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  align="center"
+                                >
+                                  {post.node.title}
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  align="center"
+                                  variant="subtitle2"
+                                >
+                                  {post.node.subtitle}
+                                </Typography>
+                                <Grid
+                                  container
+                                  justify="center"
+                                  alignItems="center"
+                                  alignContent="center"
+                                >
+                                  {post.node._meta.tags &&
+                                    post.node._meta.tags.map(tag => {
+                                      return (
+                                        <Box
+                                          m={0.5}
+                                          key={tag}
+                                          alignItems="center"
+                                        >
+                                          <Chip label={tag} size="small" />
+                                        </Box>
+                                      );
+                                    })}
+                                </Grid>
+                              </CardContent>
+                            </Link>
                           </CardActionArea>
                         </Card>
                       </Grid>
