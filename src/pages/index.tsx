@@ -147,7 +147,7 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
                 <Grid container spacing={5}>
                   {posts &&
                     posts.map(post => (
-                      <Grid item xs={12} md={4}>
+                      <Grid key={post.node.title} item xs={12} md={4}>
                         <Card className={classes.postCard}>
                           <CardActionArea className={classes.postCard}>
                             <CardHeader
@@ -191,7 +191,11 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
                                 {post.node._meta.tags &&
                                   post.node._meta.tags.map(tag => {
                                     return (
-                                      <Box m={0.5} alignItems="center">
+                                      <Box
+                                        m={0.5}
+                                        key={tag}
+                                        alignItems="center"
+                                      >
                                         <Chip label={tag} size="small" />
                                       </Box>
                                     );

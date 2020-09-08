@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ categories }) => {
           </Link>
           {categories &&
             categories.map(category => (
-              <Link className={classes.link} href="/">
+              <Link key={category.node.name} className={classes.link} href="/">
                 {category.node.name}
               </Link>
             ))}
