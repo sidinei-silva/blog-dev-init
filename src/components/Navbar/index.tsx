@@ -18,7 +18,7 @@ const Navbar: React.FC<NavbarProps> = ({ categories }) => {
 
   return (
     <Container maxWidth="md">
-      <Box p={5}>
+      <Box py={5}>
         <Typography align="center" className={classes.groupLink}>
           <Link className={classes.link} href="/">
             Home
