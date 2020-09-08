@@ -276,7 +276,7 @@ export async function getServerSideProps() {
     `
     query {
 
-      allCategorys(sortBy: meta_lastPublicationDate_DESC){
+      allCategorys(sortBy: meta_lastPublicationDate_DESC, first: 4){
         edges {
           node {
             name
