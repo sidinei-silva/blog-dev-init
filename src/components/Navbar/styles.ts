@@ -16,13 +16,29 @@ export default makeStyles(theme =>
     appBar: {
       position: 'relative'
     },
-    title: {
-      marginLeft: theme.spacing(2),
-      flex: 1
-    },
     mediaPost: {
       height: 0,
       paddingTop: '56.25%' // 16:9
+    },
+
+    menuButton: {
+      marginRight: theme.spacing(2)
+    },
+    title: {
+      flexGrow: 1
+    },
+
+    searchButton: {
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center'
+      }
+    },
+
+    links: {
+      order: 0,
+      [theme.breakpoints.down('sm')]: {
+        order: 1
+      }
     }
   })
 );
