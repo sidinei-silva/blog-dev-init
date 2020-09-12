@@ -98,33 +98,41 @@ const Navbar: React.FC<NavbarProps> = ({ categories }) => {
 
   return (
     <>
-      <Container maxWidth="md">
-        <Box py={5}>
-          <Typography align="center" className={classes.groupLink}>
-            <Link className={classes.link} href="/">
-              Home
-            </Link>
-            {categories &&
-              categories.map(category => (
-                <Link
-                  key={category.node.name}
-                  className={classes.link}
-                  href="/"
+      <Container maxWidth="lg">
+        <Box py={2}>
+          <Toolbar>
+            <Grid container alignItems="center" justify="space-between">
+              <Grid item xs={12} md={11} className={classes.links}>
+                <Typography className={classes.groupLink}>
+                  <Link className={classes.link} href="/">
+                    Home
+                  </Link>
+                  {categories &&
+                    categories.map(category => (
+                      <Link
+                        key={category.node.name}
+                        className={classes.link}
+                        href="/"
+                      >
+                        {category.node.name}
+                      </Link>
+                    ))}
+                </Typography>
+              </Grid>
+              <Grid item md xs={12} className={classes.searchButton}>
+                <IconButton
+                  aria-label="buscar"
+                  color="primary"
+                  component="span"
+                  onClick={handleClickOpen}
                 >
-                  {category.node.name}
-                </Link>
-              ))}
-            <IconButton
-              aria-label="buscar"
-              color="primary"
-              component="span"
-              onClick={handleClickOpen}
-            >
-              <SearchIcon />
-            </IconButton>
-          </Typography>
+                  <SearchIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Toolbar>
         </Box>
-        <Box>
+        <Box mb={10}>
           <Divider variant="fullWidth" />
         </Box>
       </Container>
