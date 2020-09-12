@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Link } from '@material-ui/core';
 import React from 'react';
 
 import useStyles from './styles';
@@ -9,7 +9,9 @@ const Header: React.FC = () => {
   return (
     <>
       <Box className={classes.root}>
-        <img className={classes.logo} src="/logo_transparent.png" alt="" />
+        <Link href="/">
+          <img className={classes.logo} src="/logo_transparent.png" alt="" />
+        </Link>
       </Box>
     </>
   );
