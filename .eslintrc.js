@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     browser: true,
-    es2020: true,
+    es2020: true
   },
   extends: [
     'plugin:react/recommended',
@@ -11,23 +11,24 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier/react',
-    'prettier/@typescript-eslint',
+    'prettier/@typescript-eslint'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 11,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: [
     'react',
     '@typescript-eslint',
     'eslint-plugin-import-helpers',
-    'prettier',
+    'prettier'
   ],
   rules: {
+    'comma-dangle': ['error', 'never'],
     'no-underscore-dangle': 'off',
     // Include .prettierrc.js rules
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
@@ -38,36 +39,36 @@ module.exports = {
         // example configuration
         newlinesBetween: 'always',
         groups: ['module', '/^@shared/', ['parent', 'sibling', 'index']],
-        alphabetize: { order: 'asc', ignoreCase: true },
-      },
+        alphabetize: { order: 'asc', ignoreCase: true }
+      }
     ],
     'react/jsx-filename-extension': [
       'error',
       {
-        extensions: ['.tsx'],
-      },
+        extensions: ['.tsx']
+      }
     ],
     'import/extensions': [
       'error',
       'ignorePackages',
       {
         ts: 'never',
-        tsx: 'never',
-      },
-    ],
+        tsx: 'never'
+      }
+    ]
   },
   settings: {
     'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
     'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
+      '@typescript-eslint/parser': ['.ts', '.tsx']
     },
     'import/resolver': {
       typescript: {
-        alwaysTryTypes: true,
-      },
+        alwaysTryTypes: true
+      }
     },
     react: {
-      version: 'detect',
-    },
-  },
+      version: 'detect'
+    }
+  }
 };
