@@ -11,7 +11,7 @@ import {
   Avatar,
   Chip,
   CardActionArea,
-  Link,
+  Link
 } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -19,6 +19,7 @@ import moment from 'moment';
 import Head from 'next/head';
 import React from 'react';
 
+import Footer from '../components/Footer/index';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import { fetchAPI } from '../lib/api-prismic';
@@ -60,19 +61,19 @@ const useStyles = makeStyles(() =>
   createStyles({
     imgThumbnail: {
       height: 0,
-      paddingTop: '56.25%', // 16:9
+      paddingTop: '56.25%' // 16:9
     },
     postCard: {
-      minHeight: '100%',
+      minHeight: '100%'
     },
     mediaPost: {
       height: 0,
-      paddingTop: '56.25%', // 16:9
+      paddingTop: '56.25%' // 16:9
     },
     avatar: {
-      backgroundColor: '#112D4E',
-    },
-  }),
+      backgroundColor: '#112D4E'
+    }
+  })
 );
 
 const Home: React.FC<HomeProps> = ({ posts, categories }) => {
@@ -113,7 +114,7 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
                       <Typography variant="caption">
                         <span>Criado em </span>
                         {moment(
-                          highlight.node._meta.firstPublicationDate,
+                          highlight.node._meta.firstPublicationDate
                         ).format('DD-MM-YYYY ')}
                         <span>Por </span>
                         <span>{highlight.node.author.name ?? ''}</span>
@@ -166,7 +167,7 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
                                 }
                                 title={post.node.author.name ?? ''}
                                 subheader={moment(
-                                  post.node._meta.firstPublicationDate,
+                                  post.node._meta.firstPublicationDate
                                 ).format('DD-MM-YYYY ')}
                               />
                               <CardMedia
@@ -236,6 +237,7 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
           </Grid>
         </Box>
       </Container>
+      <Footer />
     </>
   );
 };
@@ -269,7 +271,7 @@ export async function getServerSideProps() {
       }
     }
   `,
-    {},
+    {}
   );
 
   const categories = await fetchAPI(
@@ -285,13 +287,13 @@ export async function getServerSideProps() {
       }
     }
   `,
-    {},
+    {}
   );
 
   return {
     props: {
       posts: posts.allPosts.edges,
-      categories: categories.allCategorys.edges,
-    },
+      categories: categories.allCategorys.edges
+    }
   };
 }
