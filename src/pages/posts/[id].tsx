@@ -22,6 +22,7 @@ import React from 'react';
 
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
+import SliceZone from '../../components/SliceZone';
 import { fetchAPI } from '../../lib/api-prismic';
 
 interface Post {
@@ -111,14 +112,24 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                 }
                 title={post.node.author.name ?? ''}
                 subheader={moment(post.node._meta.firstPublicationDate).format(
-                  'DD-MM-YYYY ',
+                  'DD-MM-YYYY '
                 )}
               />
             </Grid>
           </Grid>
         </Box>
         <Divider />
-        <Box my={4}>{RichText.render(post.node.content)}</Box>
+        <Grid item xs={12}>
+          <Box py={2}>
+            <DefaultImage
+              imageUrl={post.node.thumbnail.url}
+              caption={post.node.thumbnail.alt}
+            />
+          </Box>
+        </Grid>
+        <Box my={4}>
+          <SliceZone content={post.node.content} />
+        </Box>
         <Divider />
         <Box py={3}>
           <Grid container alignItems="center" spacing={2}>
