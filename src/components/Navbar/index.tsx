@@ -45,9 +45,9 @@ interface NavbarProps {
 }
 
 interface Post {
-  uid: string;
-  firstPublicationDate: string;
-  tags: string[];
+  uid?: string;
+  firstPublicationDate?: string;
+  tags?: string[];
 
   data: {
     title: string;
@@ -90,8 +90,6 @@ const Navbar: React.FC<NavbarProps> = ({ categories }) => {
       Prismic.Predicates.at('document.type', 'post'),
       Prismic.Predicates.fulltext('document', textSearch)
     ]);
-
-    console.log(response);
 
     setPosts(response.results || []);
   };
