@@ -135,7 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({ categories }) => {
             </Grid>
           </Toolbar>
         </Box>
-        <Box mb={10}>
+        <Box>
           <Divider variant="fullWidth" />
         </Box>
       </Container>
