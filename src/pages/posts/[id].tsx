@@ -23,6 +23,7 @@ import React from 'react';
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import SliceZone from '../../components/SliceZone';
+import DefaultImage from '../../components/SliceZone/slices/ImageWithCaption/DefaultImage';
 import { fetchAPI } from '../../lib/api-prismic';
 
 interface Post {
