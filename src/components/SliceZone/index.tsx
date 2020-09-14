@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 
+import Code from './slices/Code';
 import Text from './slices/Text';
 
 /**
@@ -11,7 +12,8 @@ const SliceZone = ({ content }) =>
     switch (slice.type) {
       case 'paragraph':
         return <Text slice={slice} key={`slice-${index}`} />;
-
+      case 'preformatted':
+        return <Code slice={slice} key={`slice-${index}`} />;
       default:
         return null;
     }
