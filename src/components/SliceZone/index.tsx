@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import { RichText, RichTextBlock } from 'prismic-reactjs';
 import React from 'react';
 
 import Code from './slices/Code';
@@ -24,7 +25,7 @@ const SliceZone = ({ content }) =>
       case 'preformatted':
         return <Code slice={slice} key={`slice-${index}`} />;
       default:
-        return null;
+        return <div key={`slice-${index}`}>{RichText.render([slice])}</div>;
     }
   });
 
