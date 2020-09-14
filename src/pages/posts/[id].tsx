@@ -157,7 +157,7 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                   <Typography variant="h6">{post.node.author.name}</Typography>
                   <Typography variant="body2">
                     {moment(post.node._meta.firstPublicationDate).format(
-                      'DD-MM-YYYY ',
+                      'DD-MM-YYYY '
                     )}
                   </Typography>
                 </Grid>
@@ -266,8 +266,8 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
   `,
     {
       slug: ctx.params.id,
-      lang: 'pt-br',
-    },
+      lang: 'pt-br'
+    }
   );
 
   const posts = await fetchAPI(
@@ -296,7 +296,7 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
       }
     }
   `,
-    {},
+    {}
   );
 
   const categories = await fetchAPI(
@@ -312,22 +312,22 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
       }
     }
   `,
-    {},
+    {}
   );
 
   return {
     props: {
       post: post.allPosts.edges[0],
       categories: categories.allCategorys.edges,
-      posts: posts.allPosts.edges,
+      posts: posts.allPosts.edges
     },
-    revalidate: 1,
+    revalidate: 1
   };
 }
 
 export async function getStaticPaths() {
   const {
-    allPosts: { edges },
+    allPosts: { edges }
   } = await fetchAPI(
     `
     query {
@@ -342,12 +342,12 @@ export async function getStaticPaths() {
       }
     }
   `,
-    {},
+    {}
   );
 
   return {
     paths: edges.map(({ node }) => `/posts/${node._meta.uid}`) || [],
-    fallback: false,
+    fallback: false
   };
 }
 
