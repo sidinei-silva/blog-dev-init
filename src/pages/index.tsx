@@ -124,7 +124,6 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
                 </Link>
               </CardActionArea>
             </Grid>
-
             <Grid item md={3} xs={12}>
               <Hidden smDown>
                 <Grid container direction="column" spacing={5}>
@@ -143,7 +142,6 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
             </Grid>
           </Grid>
         </Box>
-        <Divider />
         <Box my={4}>
           <Grid container spacing={6}>
             <Grid item md={9} xs={12}>
