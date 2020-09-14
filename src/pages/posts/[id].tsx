@@ -10,10 +10,12 @@ import {
   Container,
   Divider,
   Grid,
+  IconButton,
   Link,
   Typography
 } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { GitHub, Email, LinkedIn } from '@material-ui/icons';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import moment from 'moment';
 import { GetStaticPropsContext } from 'next';
@@ -43,6 +45,8 @@ interface Post {
     content: RichTextBlock[];
     author: {
       name: string;
+      linkgithub: string;
+      linklinkedin: string;
       avatar: {
         url: string;
         alt: string;
@@ -57,7 +61,7 @@ interface PostProps {
   posts: Post[];
 }
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles(theme =>
   createStyles({
     postCard: {
       minHeight: '100%'
@@ -66,11 +70,17 @@ const useStyles = makeStyles(() =>
       height: 0,
       paddingTop: '56.25%' // 16:9
     },
-    avatar: {
+
+    avatarAuthor: {
+      width: '80px',
+      height: '80px',
       backgroundColor: '#112D4E'
     },
-    authorCardHeader: {
-      padding: 0
+    titlePost: {
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+        marginBottom: '15px'
+      }
     }
   })
 );
@@ -85,7 +95,7 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
       <Header />
       <Navbar categories={categories} />
       <Container maxWidth="md">
-        <Box alignItems="center">
+        <Box alignItems="center" mt={5}>
           <Grid container spacing={1}>
             <Grid item>
               <Typography variant="button" color="textSecondary">
@@ -101,6 +111,16 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
             </Grid>
           </Grid>
         </Box>
+        <Grid item xs={12}>
+          <Box>
+            <DefaultImage
+              imageUrl={post.node.thumbnail.url}
+              caption={post.node.thumbnail.alt}
+            />
+          </Box>
+        </Grid>
+
+        <Divider />
         <Box my={3} className="authorInfo">
           <Grid
             container
@@ -108,36 +128,61 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
             spacing={2}
             alignItems="center"
           >
-            <Grid item md={10} xs={12}>
-              <Typography variant="h3">{post.node.title}</Typography>
-              <Typography variant="h6">{post.node.subtitle}</Typography>
+            <Grid item md={8} xs={12}>
+              <Box className={classes.titlePost}>
+                <Typography variant="h3">{post.node.title}</Typography>
+                <Typography variant="h6" color="textSecondary">
+                  {post.node.subtitle}
+                </Typography>
+              </Box>
             </Grid>
-            <Grid item md={2} xs={12}>
-              <CardHeader
-                className={classes.authorCardHeader}
-                avatar={
+            <Grid item md={4} xs={12}>
+              <Grid container alignItems="center" spacing={2}>
+                <Grid item>
                   <Avatar
+                    className={classes.avatarAuthor}
                     alt={post.node.author.avatar.alt ?? ''}
                     src={post.node.author.avatar.url ?? ''}
                   />
-                }
-                title={post.node.author.name ?? ''}
-                subheader={moment(post.node._meta.firstPublicationDate).format(
-                  'DD-MM-YYYY '
-                )}
-              />
+                </Grid>
+                <Grid item>
+                  <Grid container>
+                    <Grid item>
+                      <Typography variant="h6">
+                        {post.node.author.name}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        <span>Publicado em: </span>
+                        <b>
+                          {moment(post.node._meta.firstPublicationDate).format(
+                            'DD-MM-YYYY '
+                          )}
+                        </b>
+                      </Typography>
+                      <Box mt={0.5}>
+                        <Grid container alignItems="center">
+                          <Link
+                            target="_blank"
+                            href={post.node.author.linkgithub || '/'}
+                          >
+                            <GitHub fontSize="small" />
+                          </Link>
+                          <Link
+                            target="_blank"
+                            href={post.node.author.linklinkedin || '/'}
+                          >
+                            <LinkedIn />
+                          </Link>
+                        </Grid>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Box>
         <Divider />
-        <Grid item xs={12}>
-          <Box py={2}>
-            <DefaultImage
-              imageUrl={post.node.thumbnail.url}
-              caption={post.node.thumbnail.alt}
-            />
-          </Box>
-        </Grid>
         <Box my={4}>
           <SliceZone content={post.node.content} />
         </Box>
@@ -146,6 +191,7 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
           <Grid container alignItems="center" spacing={2}>
             <Grid item>
               <Avatar
+                className={classes.avatarAuthor}
                 alt={post.node.author.avatar.alt ?? ''}
                 src={post.node.author.avatar.url ?? ''}
               />
@@ -256,6 +302,8 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
               ... on Author{
                 name
                 avatar
+                linkgithub
+                linklinkedin
               }
             }
           }
