@@ -170,43 +170,43 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
           <Typography variant="h5">Ver mais</Typography>
         </Box>
         <Box py={3}>
-          <Grid container spacing={5}>
+          <Grid container spacing={4}>
             {posts &&
               posts.map(postLoop => (
-                <Grid key={post.node.title} item xs={12} md={4}>
+                <Grid key={postLoop.node.title} item xs={12} md={4}>
                   <Card className={classes.postCard}>
                     <CardActionArea className={classes.postCard}>
                       <Link
-                        href={`posts/${post.node._meta.uid}`}
+                        href={`/posts/${postLoop.node._meta.uid}`}
                         underline="none"
                       >
                         <CardHeader
                           avatar={
                             <Avatar
-                              alt={post.node.author.avatar.alt ?? ''}
-                              src={post.node.author.avatar.url ?? ''}
+                              alt={postLoop.node.author.avatar.alt ?? ''}
+                              src={postLoop.node.author.avatar.url ?? ''}
                             />
                           }
-                          title={post.node.author.name ?? ''}
+                          title={postLoop.node.author.name ?? ''}
                           subheader={moment(
-                            post.node._meta.firstPublicationDate,
+                            postLoop.node._meta.firstPublicationDate
                           ).format('DD-MM-YYYY ')}
                         />
                         <CardMedia
                           className={classes.mediaPost}
-                          image={post.node.thumbnail.url}
-                          title={post.node.thumbnail.alt}
+                          image={postLoop.node.thumbnail.url}
+                          title={postLoop.node.thumbnail.alt}
                         />
                         <CardContent>
                           <Typography gutterBottom variant="h5" align="center">
-                            {post.node.title}
+                            {postLoop.node.title}
                           </Typography>
                           <Typography
                             gutterBottom
                             align="center"
                             variant="subtitle2"
                           >
-                            {post.node.subtitle}
+                            {postLoop.node.subtitle}
                           </Typography>
                           <Grid
                             container
@@ -214,8 +214,8 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                             alignItems="center"
                             alignContent="center"
                           >
-                            {post.node._meta.tags &&
-                              post.node._meta.tags.map(tag => {
+                            {postLoop.node._meta.tags &&
+                              postLoop.node._meta.tags.map(tag => {
                                 return (
                                   <Box m={0.5} key={tag} alignItems="center">
                                     <Chip label={tag} size="small" />
