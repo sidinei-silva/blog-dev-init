@@ -58,27 +58,20 @@ interface PostProps {
 
 const useStyles = makeStyles(() =>
   createStyles({
-    imgThumbnail: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
     postCard: {
-      minHeight: '100%',
+      minHeight: '100%'
     },
     mediaPost: {
       height: 0,
-      paddingTop: '56.25%', // 16:9
+      paddingTop: '56.25%' // 16:9
     },
     avatar: {
-      backgroundColor: '#112D4E',
+      backgroundColor: '#112D4E'
     },
     authorCardHeader: {
-      padding: 0,
-    },
-    postCardHeader: {
-      padding: '16px',
-    },
-  }),
+      padding: 0
+    }
+  })
 );
 
 const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
