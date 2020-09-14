@@ -11,9 +11,10 @@ import {
   Divider,
   Grid,
   Link,
-  Typography,
+  Typography
 } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import moment from 'moment';
 import { GetStaticPropsContext } from 'next';
 import Head from 'next/head';
@@ -84,6 +85,22 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
       <Header />
       <Navbar categories={categories} />
       <Container maxWidth="md">
+        <Box alignItems="center">
+          <Grid container spacing={1}>
+            <Grid item>
+              <Typography variant="button" color="textSecondary">
+                <ArrowBackIcon />
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Link href="/">
+                <Typography variant="button" color="textSecondary">
+                  voltar para lista
+                </Typography>
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
         <Box my={3} className="authorInfo">
           <Grid
             container
