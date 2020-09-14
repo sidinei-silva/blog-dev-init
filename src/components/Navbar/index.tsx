@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 import {
   Container,
@@ -19,6 +20,7 @@ import {
   CardMedia,
   InputAdornment
 } from '@material-ui/core';
+import { TransitionProps } from '@material-ui/core/transitions';
 import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
 import moment from 'moment';
@@ -60,7 +62,10 @@ interface Post {
   };
 }
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children?: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
@@ -132,7 +137,7 @@ const Navbar: React.FC<NavbarProps> = ({ categories }) => {
             </Grid>
           </Toolbar>
         </Box>
-        <Box>
+        <Box mb={10}>
           <Divider variant="fullWidth" />
         </Box>
       </Container>
