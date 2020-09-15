@@ -395,7 +395,7 @@ export async function getStaticPaths() {
 
   return {
     paths: edges.map(({ node }) => `/posts/${node._meta.uid}`) || [],
-    fallback: false
+    fallback: true
   };
 }
 
