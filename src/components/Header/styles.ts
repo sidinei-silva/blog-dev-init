@@ -6,10 +6,10 @@ export default makeStyles(theme =>
     root: {
       background: '#112D4E',
       maxHeight: '174px',
-      textAlign: 'center',
+      textAlign: 'center'
     },
     logo: {
-      maxWidth: '184px',
-    },
-  }),
+      maxWidth: '174px'
+    }
+  })
 );

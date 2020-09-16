@@ -11,11 +11,13 @@ import {
   Divider,
   Grid,
   Link,
-  Typography
+  Typography,
+  useMediaQuery
 } from '@material-ui/core';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { GitHub, LinkedIn } from '@material-ui/icons';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { GitHub, LinkedIn, Share } from '@material-ui/icons';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { DiscussionEmbed, CommentCount, CommentEmbed } from 'disqus-react';
 import moment from 'moment';
 import { GetStaticPropsContext } from 'next';
 import ErrorPage from 'next/error';
@@ -23,6 +25,18 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { RichTextBlock } from 'prismic-reactjs';
 import React from 'react';
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  TelegramShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  TwitterIcon,
+  WhatsappIcon,
+  TelegramIcon
+} from 'react-share';
 
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
@@ -62,7 +76,7 @@ interface PostProps {
   posts: Post[];
 }
 
-const useStyles = makeStyles(theme =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     postCard: {
       minHeight: '100%'
@@ -88,19 +102,41 @@ const useStyles = makeStyles(theme =>
 
 const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
   const classes = useStyles();
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('sm')
+  );
 
   const router = useRouter();
+  const locationHost = 'https://dev-init.vercel.app';
+
+  const shareUrl = `${locationHost + router.asPath}`;
 
   if (!router.isFallback && !post.node._meta.uid) {
     return <ErrorPage statusCode={404} />;
   }
+
+  const handleNewComment = comment => {
+    window.console.info(
+      `New comment posted with id ${comment.id} and message: ${comment.text}`
+    );
+  };
+
+  const threadConfig = {
+    url: shareUrl,
+    identifier: post.node._meta.uid,
+    title: post.node.title,
+    onNewComment: handleNewComment
+  };
 
   return (
     <>
       {post && (
         <>
           <Head>
-            <title>Dev-init | {post.node ? post.node.title : ''}</title>
+            <title>Dev-init | {post.node.title}</title>
+            <meta property="og:image" content={post.node.thumbnail.url} />
+            <meta property="og:title" content={post.node.title} />
+            <meta property="og:type" content="article" />
           </Head>
           <Header />
           <Navbar categories={categories} />
@@ -199,6 +235,45 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                 </Box>
                 <Divider />
                 <Box my={4}>
+                  <Grid
+                    container
+                    spacing={1}
+                    justify={isMobile ? 'flex-start' : 'flex-end'}
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <Share />
+                    </Grid>
+
+                    <Grid item>
+                      <FacebookShareButton url={shareUrl}>
+                        <FacebookIcon size={32} round />
+                      </FacebookShareButton>
+                    </Grid>
+                    <Grid item>
+                      <LinkedinShareButton url={shareUrl}>
+                        <LinkedinIcon size={32} round />
+                      </LinkedinShareButton>
+                    </Grid>
+                    <Grid item>
+                      <TwitterShareButton url={shareUrl}>
+                        <TwitterIcon size={32} round />
+                      </TwitterShareButton>
+                    </Grid>
+                    <Grid item>
+                      <WhatsappShareButton url={shareUrl}>
+                        <WhatsappIcon size={32} round />
+                      </WhatsappShareButton>
+                    </Grid>
+                    <Grid item>
+                      <TelegramShareButton url={shareUrl}>
+                        <TelegramIcon size={32} round />
+                      </TelegramShareButton>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Box my={4}>
                   <SliceZone content={post.node.content} />
                 </Box>
                 <Divider />
@@ -230,8 +305,9 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                     </Grid>
                   </Grid>
                 </Box>
+
                 <Divider />
-                <Box py={3} mt={3}>
+                <Box mt={3}>
                   <Typography variant="h5">Ver mais</Typography>
                 </Box>
                 <Box py={3}>
@@ -307,6 +383,10 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                         </Grid>
                       ))}
                   </Grid>
+                </Box>
+                <Divider />
+                <Box py={3} px={5}>
+                  <DiscussionEmbed shortname="Dev-init" config={threadConfig} />
                 </Box>
               </>
             )}
