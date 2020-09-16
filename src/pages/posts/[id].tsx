@@ -119,7 +119,10 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
       {post && (
         <>
           <Head>
-            <title>Dev-init | {post.node ? post.node.title : ''}</title>
+            <title>Dev-init | {post.node.title}</title>
+            <meta property="og:image" content={post.node.thumbnail.url} />
+            <meta property="og:title" content={post.node.title} />
+            <meta property="og:type" content="article" />
           </Head>
           <Header />
           <Navbar categories={categories} />

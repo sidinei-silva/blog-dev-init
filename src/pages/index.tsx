@@ -84,6 +84,7 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
     <>
       <Head>
         <title>Dev Init | Home</title>
+        <meta property="og:image" content="/logo.png" />
       </Head>
       <Header />
       <Navbar categories={categories} />
