@@ -10,7 +10,7 @@ const Header: React.FC = () => {
     <>
       <Box className={classes.root}>
         <Link href="/">
-          <img className={classes.logo} src="/logo_transparent.png" alt="" />
+          <img className={classes.logo} src="/logo.png" alt="" />
         </Link>
       </Box>
     </>
