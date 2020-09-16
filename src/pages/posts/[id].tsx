@@ -11,9 +11,10 @@ import {
   Divider,
   Grid,
   Link,
-  Typography
+  Typography,
+  useMediaQuery
 } from '@material-ui/core';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { GitHub, LinkedIn, Share } from '@material-ui/icons';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import moment from 'moment';
@@ -74,7 +75,7 @@ interface PostProps {
   posts: Post[];
 }
 
-const useStyles = makeStyles(theme =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     postCard: {
       minHeight: '100%'
@@ -100,6 +101,9 @@ const useStyles = makeStyles(theme =>
 
 const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
   const classes = useStyles();
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('sm')
+  );
 
   const router = useRouter();
   const locationHost = 'https://dev-init.vercel.app';
@@ -220,7 +224,7 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                   <Grid
                     container
                     spacing={1}
-                    justify="flex-end"
+                    justify={isMobile ? 'flex-start' : 'flex-end'}
                     alignItems="center"
                   >
                     <Grid item>
