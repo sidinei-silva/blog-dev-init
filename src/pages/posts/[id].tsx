@@ -257,9 +257,6 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                       </TelegramShareButton>
                     </Grid>
                   </Grid>
-
-                  {/* <EmailShareButton>
-                      <TelegramShareButton> */}
                 </Box>
 
                 <Box my={4}>
