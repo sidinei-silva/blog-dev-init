@@ -17,6 +17,7 @@ import {
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { GitHub, LinkedIn, Share } from '@material-ui/icons';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { DiscussionEmbed, CommentCount, CommentEmbed } from 'disqus-react';
 import moment from 'moment';
 import { GetStaticPropsContext } from 'next';
 import ErrorPage from 'next/error';
@@ -113,6 +114,19 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
   if (!router.isFallback && !post.node._meta.uid) {
     return <ErrorPage statusCode={404} />;
   }
+
+  const handleNewComment = comment => {
+    window.console.info(
+      `New comment posted with id ${comment.id} and message: ${comment.text}`
+    );
+  };
+
+  const threadConfig = {
+    url: shareUrl,
+    identifier: post.node._meta.uid,
+    title: post.node.title,
+    onNewComment: handleNewComment
+  };
 
   return (
     <>
@@ -291,8 +305,9 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                     </Grid>
                   </Grid>
                 </Box>
+
                 <Divider />
-                <Box py={3} mt={3}>
+                <Box mt={3}>
                   <Typography variant="h5">Ver mais</Typography>
                 </Box>
                 <Box py={3}>
@@ -368,6 +383,10 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                         </Grid>
                       ))}
                   </Grid>
+                </Box>
+                <Divider />
+                <Box py={3} px={5}>
+                  <DiscussionEmbed shortname="Dev-init" config={threadConfig} />
                 </Box>
               </>
             )}
