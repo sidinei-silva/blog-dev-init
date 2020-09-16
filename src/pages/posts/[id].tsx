@@ -115,17 +115,10 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
     return <ErrorPage statusCode={404} />;
   }
 
-  const handleNewComment = comment => {
-    window.console.info(
-      `New comment posted with id ${comment.id} and message: ${comment.text}`
-    );
-  };
-
   const threadConfig = {
     url: shareUrl,
-    identifier: post.node._meta.uid,
-    title: post.node.title,
-    onNewComment: handleNewComment
+    identifier: post ? post.node._meta.uid : '',
+    title: post ? post.node.title : ''
   };
 
   return (
