@@ -14,7 +14,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { GitHub, LinkedIn } from '@material-ui/icons';
+import { GitHub, LinkedIn, Share } from '@material-ui/icons';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import moment from 'moment';
 import { GetStaticPropsContext } from 'next';
@@ -23,6 +23,22 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { RichTextBlock } from 'prismic-reactjs';
 import React from 'react';
+import {
+  EmailShareButton,
+  EmailIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  InstapaperShareButton,
+  InstapaperIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  TelegramShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  TwitterIcon,
+  WhatsappIcon,
+  TelegramIcon
+} from 'react-share';
 
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
@@ -90,6 +106,9 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
   const classes = useStyles();
 
   const router = useRouter();
+  const locationHost = 'https://dev-init.vercel.app';
+
+  const shareUrl = `${locationHost + router.asPath}`;
 
   if (!router.isFallback && !post.node._meta.uid) {
     return <ErrorPage statusCode={404} />;
@@ -198,6 +217,48 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
                   </Grid>
                 </Box>
                 <Divider />
+                <Box my={4}>
+                  <Grid
+                    container
+                    spacing={1}
+                    justify="flex-end"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <Share />
+                    </Grid>
+
+                    <Grid item>
+                      <FacebookShareButton url={shareUrl}>
+                        <FacebookIcon size={32} round />
+                      </FacebookShareButton>
+                    </Grid>
+                    <Grid item>
+                      <LinkedinShareButton url={shareUrl}>
+                        <LinkedinIcon size={32} round />
+                      </LinkedinShareButton>
+                    </Grid>
+                    <Grid item>
+                      <TwitterShareButton url={shareUrl}>
+                        <TwitterIcon size={32} round />
+                      </TwitterShareButton>
+                    </Grid>
+                    <Grid item>
+                      <WhatsappShareButton url={shareUrl}>
+                        <WhatsappIcon size={32} round />
+                      </WhatsappShareButton>
+                    </Grid>
+                    <Grid item>
+                      <TelegramShareButton url={shareUrl}>
+                        <TelegramIcon size={32} round />
+                      </TelegramShareButton>
+                    </Grid>
+                  </Grid>
+
+                  {/* <EmailShareButton>
+                      <TelegramShareButton> */}
+                </Box>
+
                 <Box my={4}>
                   <SliceZone content={post.node.content} />
                 </Box>
