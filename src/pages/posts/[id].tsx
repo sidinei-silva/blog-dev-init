@@ -24,12 +24,8 @@ import { useRouter } from 'next/router';
 import { RichTextBlock } from 'prismic-reactjs';
 import React from 'react';
 import {
-  EmailShareButton,
-  EmailIcon,
   FacebookShareButton,
   FacebookIcon,
-  InstapaperShareButton,
-  InstapaperIcon,
   LinkedinShareButton,
   LinkedinIcon,
   TelegramShareButton,
