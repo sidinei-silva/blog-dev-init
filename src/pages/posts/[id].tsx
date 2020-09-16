@@ -365,9 +365,9 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
 
   return {
     props: {
-      post: post.allPosts.edges[0],
-      categories: categories.allCategorys.edges,
-      posts: posts.allPosts.edges
+      post: post?.allPosts?.edges[0] ?? null,
+      categories: categories?.allCategorys?.edges ?? [],
+      posts: posts?.allPosts?.edges ?? []
     },
     revalidate: 1
   };
@@ -394,7 +394,7 @@ export async function getStaticPaths() {
   );
 
   return {
-    paths: edges.map(({ node }) => `/posts/${node._meta.uid}`) || [],
+    paths: edges?.map(({ node }) => `/posts/${node?._meta?.uid}`) || [],
     fallback: true
   };
 }
