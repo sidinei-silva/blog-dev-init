@@ -20,7 +20,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import moment from 'moment';
 import { GetStaticPropsContext } from 'next';
 import Head from 'next/head';
-import { RichText, RichTextBlock } from 'prismic-reactjs';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import Header from '../../components/Header';
@@ -87,6 +87,12 @@ const useStyles = makeStyles(theme =>
 
 const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
   const classes = useStyles();
+
+  const router = useRouter();
+
+  if (!router.isFallback && !post.node._meta.uid) {
+    return <ErrorPage statusCode={404} />;
+  }
   return (
     <>
       <Head>
