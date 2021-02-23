@@ -24,7 +24,7 @@ import ErrorPage from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { RichTextBlock } from 'prismic-reactjs';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -108,10 +108,16 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
     theme.breakpoints.down('sm')
   );
 
-  const router = useRouter();
-  const locationHost = 'https://dev-init.vercel.app';
+  const [shareUrl, setShareUrl] = useState('');
 
-  const shareUrl = `${locationHost + router.asPath}`;
+  const router = useRouter();
+
+  useEffect(() => {
+    const { origin } = window.location;
+    const locationHost = origin;
+
+    setShareUrl(`${locationHost + router.asPath}`);
+  }, []);
 
   if (!router.isFallback && !post.node._meta.uid) {
     return <ErrorPage statusCode={404} />;
