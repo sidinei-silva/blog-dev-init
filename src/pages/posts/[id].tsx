@@ -53,6 +53,8 @@ interface Post {
     };
     title: string;
     subtitle: string;
+    description: string;
+    keywords: string;
     thumbnail: {
       url: string;
       alt: string;
@@ -127,8 +129,19 @@ const Post: React.FC<PostProps> = ({ post, categories, posts }) => {
         <>
           <Head>
             <title>Dev-init | {post.node.title}</title>
-            <meta property="og:image" content={post.node.thumbnail.url} />
+            <meta name="description" content={post.node.description} />
+            <meta name="keywords" content={post.node.keywords} />
+            <meta name="author" content={post.node.author.name} />
+
             <meta property="og:title" content={post.node.title} />
+            <meta
+              property="og:description"
+              content={post.node.description}
+              key="ogdesc"
+            />
+            <meta property="og:site_name" content="Dev init" key="ogsitename" />
+            <meta property="og:image" content={post.node.thumbnail.url} />
+            <meta property="og:url" content={shareUrl} key="ogurl" />
             <meta property="og:type" content="article" />
           </Head>
           <Header />
