@@ -17,6 +17,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import Footer from '../components/Footer/index';
@@ -80,11 +81,39 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
   const classes = useStyles();
   const highlight = posts[0];
 
+  const router = useRouter();
+
+  const { origin } = window.location;
+  const locationHost = origin;
+
+  const shareUrl = `${locationHost + router.asPath}`;
+
   return (
     <>
       <Head>
         <title>Dev Init | Home</title>
         <meta property="og:image" content="/logo.png" />
+
+        <title>Dev init</title>
+        <meta
+          name="description"
+          content="Dev Init é um blog voltado ao iniciante em desenvolvimento"
+        />
+        <meta
+          name="keywords"
+          content="Desenvolvimento, Dev, Developer, Javascript, PHP, Ruby, React, Laravel, Next"
+        />
+        <meta name="author" content="Sidinei Silva" />
+
+        <meta property="og:title" content="Dev Init" />
+        <meta
+          property="og:description"
+          content="Dev Init é um blog voltado ao iniciante em desenvolvimento"
+          key="ogdesc"
+        />
+        <meta property="og:site_name" content="Dev init" key="ogsitename" />
+        <meta property="og:image" content="/logo.png" />
+        <meta property="og:url" content={shareUrl} key="ogurl" />
       </Head>
       <Header />
       <Navbar categories={categories} />
