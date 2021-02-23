@@ -16,25 +16,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-
-          <title>Dev init</title>
-          <meta
-            name="description"
-            content="Dev Init é um blog voltado ao iniciante em desenvolvimento"
-          />
-          <meta
-            name="keywords"
-            content="Desenvolvimento, Dev, Developer, Javascript, PHP, Ruby, React, Laravel, Next"
-          />
-          <meta name="author" content="Sidinei Silva" />
-
-          <meta property="og:title" content="Dev Init" />
-          <meta
-            property="og:description"
-            content="Dev Init é um blog voltado ao iniciante em desenvolvimento"
-            key="ogdesc"
-          />
-          <meta property="og:site_name" content="Dev init" key="ogsitename" />
         </Head>
         <body>
           <Main />
