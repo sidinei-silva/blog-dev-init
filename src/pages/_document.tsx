@@ -16,6 +16,25 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
+
+          <title>Dev init</title>
+          <meta
+            name="description"
+            content="Dev Init é um blog voltado ao iniciante em desenvolvimento"
+          />
+          <meta
+            name="keywords"
+            content="Desenvolvimento, Dev, Developer, Javascript, PHP, Ruby, React, Laravel, Next"
+          />
+          <meta name="author" content="Sidinei Silva" />
+
+          <meta property="og:title" content="Dev Init" />
+          <meta
+            property="og:description"
+            content="Dev Init é um blog voltado ao iniciante em desenvolvimento"
+            key="ogdesc"
+          />
+          <meta property="og:site_name" content="Dev init" key="ogsitename" />
         </Head>
         <body>
           <Main />
@@ -57,7 +76,7 @@ MyDocument.getInitialProps = async ctx => {
 
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: App => props => sheets.collect(<App {...props} />),
+      enhanceApp: App => props => sheets.collect(<App {...props} />)
     });
 
   const initialProps = await Document.getInitialProps(ctx);
@@ -67,7 +86,7 @@ MyDocument.getInitialProps = async ctx => {
     // Styles fragment is rendered after the app and page rendering finish.
     styles: [
       ...React.Children.toArray(initialProps.styles),
-      sheets.getStyleElement(),
-    ],
+      sheets.getStyleElement()
+    ]
   };
 };
