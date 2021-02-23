@@ -18,7 +18,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Footer from '../components/Footer/index';
 import Header from '../components/Header';
@@ -81,12 +81,16 @@ const Home: React.FC<HomeProps> = ({ posts, categories }) => {
   const classes = useStyles();
   const highlight = posts[0];
 
+  const [shareUrl, setShareUrl] = useState('');
+
   const router = useRouter();
 
-  const { origin } = window.location;
-  const locationHost = origin;
+  useEffect(() => {
+    const { origin } = window.location;
+    const locationHost = origin;
 
-  const shareUrl = `${locationHost + router.asPath}`;
+    setShareUrl(`${locationHost + router.asPath}`);
+  }, []);
 
   return (
     <>
