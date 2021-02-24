@@ -425,6 +425,8 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
             subtitle
             thumbnail
             content
+            description
+            keywords
             author {
               ... on Author{
                 name
@@ -460,6 +462,8 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
             subtitle
             thumbnail
             content
+            description
+            keywords
             author {
               ... on Author{
                 name
