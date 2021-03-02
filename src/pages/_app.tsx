@@ -2,12 +2,17 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React from 'react';
 
+import * as gtag from '../lib/gtag';
 import theme from '../styles/theme';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
+  const router = useRouter();
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -16,6 +21,16 @@ export default function MyApp(props) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
+
+  React.useEffect(() => {
+    const handleRouteChange = (url: URL) => {
+      if (isProduction) gtag.pageview(url);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <>
